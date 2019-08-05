@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1081808379047",
+    "firebase_url": "https://travelmantics-ronaldlumor.firebaseio.com",
+    "project_id": "travelmantics-ronaldlumor",
+    "storage_bucket": "travelmantics-ronaldlumor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081808379047:android:9d2b0510dd025552",
+        "android_client_info": {
+          "package_name": "com.ronaldlumor.travelmantics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081808379047-ah2j1af2qpb7f4pterj61r69273vdcq5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ronaldlumor.travelmantics",
+            "certificate_hash": "92db120ec446f79c9a4b1c84541c12235334dd7f"
+          }
+        },
+        {
+          "client_id": "1081808379047-ski6nouq6kbplt8phlgcfn1rq2p3mqnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoK6X7mGWBvIF_anxCSk42MToNQnJ56sE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081808379047-ski6nouq6kbplt8phlgcfn1rq2p3mqnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
