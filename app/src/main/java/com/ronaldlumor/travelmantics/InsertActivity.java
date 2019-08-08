@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -45,8 +46,6 @@ public class InsertActivity extends AppCompatActivity {
     ImageView photoView;
     Button mImageButton;
     TravelDeal deal;
-
-    StorageReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +83,27 @@ public class InsertActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
         if(requestCode == IMAGE_RESULT && resultCode == RESULT_OK){
-            Uri imageUri = data.getData();
-            ref = FirebaseUtil.mStorageReference.child(imageUri.getLastPathSegment());
-            ref.putFile(imageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            final StorageReference ref = FirebaseUtil.mStorageReference.child(data.getData().getLastPathSegment());
+
+            UploadTask uploadTask = ref.putFile(data.getData());
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String url = taskSnapshot.getUploadSessionUri().toString();
-                    deal.setImageUrl(url);
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return ref.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downUri = task.getResult();
+                        deal.setImageUrl(downUri.toString());
+                        showImage(downUri.toString());
+                    }
                 }
             });
         }
@@ -183,7 +194,7 @@ public class InsertActivity extends AppCompatActivity {
     }
 
     private void backToList(){
-        startActivity(new Intent(InsertActivity.this, ListActivity.class));
+        onBackPressed();
     }
 
     private void clean(){
@@ -200,16 +211,16 @@ public class InsertActivity extends AppCompatActivity {
     }
 
     private void showImage(String url){
-        if(url != null && !url.isEmpty()) {
+        if(url != null) {
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
 
             Picasso.with(this)
                     .load(url)
-                    .resize(width, (width * 2) / 3)
+                    .resize(160, 160)
+                    //.resize(width, (width * 2) / 3)
                     .centerCrop()
                     .into(photoView);
 
         }
-
     }
 }

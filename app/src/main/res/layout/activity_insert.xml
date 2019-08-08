@@ -55,21 +55,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_margin_standard"
         android:text="@string/select_image"
+        android:textAllCaps="true"
+        android:textAppearance="?android:textAppearanceMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
 
     <ImageView
         android:id="@+id/photoView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_margin_standard"
         android:layout_marginLeft="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
-        android:layout_marginEnd="@dimen/text_margin_standard"
+        android:layout_marginStart="@dimen/text_margin_standard"
         android:layout_marginRight="@dimen/text_margin_standard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectImageButton"
-        app:srcCompat="@mipmap/ic_launcher" />
+        android:layout_marginEnd="@dimen/text_margin_standard"
+        android:layout_marginTop="@dimen/text_margin_standard"
+        android:layout_marginBottom="@dimen/text_margin_standard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

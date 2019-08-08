@@ -43,22 +43,24 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                TravelDeal deal = dataSnapshot.getValue(TravelDeal.class);
+                deals.remove(deal);
+                notifyDataSetChanged();
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                notifyDataSetChanged();
             }
         };
         mDatabaseReference.addChildEventListener(mChildEventListener);
@@ -100,7 +102,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             txtTitle.setText(deal.getTitle());
             txtDescription.setText(deal.getDescription());
             txtPrice.setText(deal.getPrice());
-            //showImage(deal.getImageUrl());
+            showImage(deal.getImageUrl());
         }
 
         @Override
@@ -114,9 +116,10 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
         private void showImage(String url){
             if(url != null && !url.isEmpty()){
+
                 Picasso.with(mImageView.getContext())
                         .load(url)
-                        .resize(160, 160)
+                        .resize(90, 90)
                         .centerCrop()
                         .into(mImageView);
             }

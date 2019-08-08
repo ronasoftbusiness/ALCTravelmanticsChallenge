@@ -3,6 +3,7 @@ package com.ronaldlumor.travelmantics;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,8 +36,7 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.list_menu, menu);
+        getMenuInflater().inflate(R.menu.list_menu, menu);
         MenuItem item = menu.findItem(R.id.new_deal_menu);
         if(FirebaseUtil.isAdmin){
             item.setVisible(true);
@@ -58,14 +58,13 @@ public class ListActivity extends AppCompatActivity {
                         .signOut(this)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             public void onComplete(@NonNull Task<Void> task) {
-                                // ...
+                                Toast.makeText(getApplicationContext(), "Logged out successfully.", Toast.LENGTH_SHORT).show();
                             }
                         });
                 FirebaseUtil.mFirebaseAuth.signOut();
                 FirebaseUtil.detachAuthListener();
                 startActivity(new Intent(ListActivity.this, PermissionActivity.class));
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -90,9 +89,10 @@ public class ListActivity extends AppCompatActivity {
         final DealAdapter dealAdapter = new DealAdapter();
         rv.setAdapter(dealAdapter);
 
-        LinearLayoutManager linearLayoutManager =
-                new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        rv.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rv.setLayoutManager(layoutManager);
+        rv.addItemDecoration(new DividerItemDecoration(rv.getContext(), LinearLayoutManager.VERTICAL));
         FirebaseUtil.attachAuthListener();
+        invalidateOptionsMenu();
     }
 }
